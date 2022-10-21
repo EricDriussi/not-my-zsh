@@ -1,5 +1,18 @@
+function theme {
+    local theme_name="$1"
+    if [ -d "$ZSH_PLUG/$theme_name" ]; then
+        # If already present, load theme
+        load_plugin "$theme_name"
+    else
+        # Else, curl and load theme
+        mkdir -p $ZSH_PLUG/$theme_name
+        curl "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/themes/$theme_name.zsh-theme" >> "$ZSH_PLUG/$theme_name/$theme_name.plugin.zsh"
+        load_plugin "$theme_name"
+    fi
+}
+
 function plug {
-    plugin_name=$(echo $1 | cut -d "/" -f 2)
+    local plugin_name=$(echo $1 | cut -d "/" -f 2)
     if [ -d "$ZSH_PLUG/$plugin_name" ]; then
         # If already present, load plugin
         load_plugin "$plugin_name"

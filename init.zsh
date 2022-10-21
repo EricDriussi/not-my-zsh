@@ -11,7 +11,7 @@ export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_HOME=$XDG_CONFIG_HOME/local/share
 export XDG_CACHE_HOME=$XDG_CONFIG_HOME/cache
 
-export CUSTOM_ZSH=$XDG_CONFIG_HOME/not-my-zsh
+export CUSTOM_ZSH=$ZSH/not-my-zsh
 export ZSH_PLUG=$CUSTOM_ZSH/.plug
 
 source $CUSTOM_ZSH/functions.zsh

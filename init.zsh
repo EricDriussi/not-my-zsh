@@ -18,5 +18,5 @@ source $CUSTOM_ZSH/settings.zsh
 source $CUSTOM_ZSH/bindings.zsh
 source $CUSTOM_ZSH/aliases.zsh
 
-# Theme
-source $CUSTOM_ZSH/custom-prompt.zsh
+# Default Theme
+source $CUSTOM_ZSH/default-prompt.zsh

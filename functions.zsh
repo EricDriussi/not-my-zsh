@@ -48,9 +48,9 @@ function prompt_vcs_precmd_hook {
     # check for untracked files or updated submodules, since vcs_info doesn't
     if [[ -n "$(git ls-files --other --exclude-standard 2> /dev/null)" ]]; then
         PR_GIT_UPDATE=1
-        FMT_BRANCH="$PM_RST $turquoise%b%u%c$hotpink ●$PR_RST"
+        FMT_BRANCH="$PM_RST $blue%b%u%c$red ●$PR_RST"
     else
-        FMT_BRANCH="$PM_RST $turquoise%b%u%c$PR_RST"
+        FMT_BRANCH="$PM_RST $blue%b%u%c$PR_RST"
     fi
     git_separator=$' \ue0a0'
     zstyle ':vcs_info:*:prompt:*' formats       $git_separator"$FMT_BRANCH"

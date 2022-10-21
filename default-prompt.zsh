@@ -1,20 +1,10 @@
 ############
 #  COLORS  #
 ############
-#use extended color palette if available
-if [[ $TERM = (*256color|*rxvt*) ]]; then
-    turquoise="%{${(%):-"%F{81}"}%}"
-    orange="%{${(%):-"%F{166}"}%}"
-    purple="%{${(%):-"%F{135}"}%}"
-    hotpink="%{${(%):-"%F{161}"}%}"
-    limegreen="%{${(%):-"%F{118}"}%}"
-else
-    turquoise="%{${(%):-"%F{cyan}"}%}"
-    orange="%{${(%):-"%F{yellow}"}%}"
-    purple="%{${(%):-"%F{magenta}"}%}"
-    hotpink="%{${(%):-"%F{red}"}%}"
-    limegreen="%{${(%):-"%F{green}"}%}"
-fi
+blue="%{${(%):-"%F{blue}"}%}"
+yellow="%{${(%):-"%F{yellow}"}%}"
+red="%{${(%):-"%F{red}"}%}"
+green="%{${(%):-"%F{green}"}%}"
 
 ###########
 #   VCS   #
@@ -32,10 +22,10 @@ zstyle ':vcs_info:*:prompt:*' check-for-changes true
 # %R - repository path
 # %S - path in the repository
 PR_RST="$reset_color"
-FMT_BRANCH="$turquoise%b%u%c$PR_RST"
-FMT_ACTION=" performing a $limegreen%a$PR_RST"
-FMT_UNSTAGED="$orange ●"
-FMT_STAGED="$limegreen ●"
+FMT_BRANCH="$blue%b%u%c$PR_RST"
+FMT_ACTION=" performing a $green%a$PR_RST"
+FMT_UNSTAGED="$red ●"
+FMT_STAGED="$green ●"
 
 git_separator=$' \ue0a0'
 
@@ -48,12 +38,12 @@ zstyle ':vcs_info:*:prompt:*' nvcsformats   ""
 ############
 #  PROMPT  #
 ############
-user='$orange%n%f'
-host='$purple%m%f'
+user='$red%n%f'
+host='$blue%m%f'
 user_host=$user'@'$host'%f'
 
 dir_separator=' 📂 '
-dir='$limegreen%~%f'
+dir='$green%~%f'
 
 git='$vcs_info_msg_0_%f'
 

@@ -24,7 +24,7 @@ zstyle ':vcs_info:*:prompt:*' check-for-changes true
 PR_RST="$reset_color"
 FMT_BRANCH="$blue%b%u%c$PR_RST"
 FMT_ACTION=" performing a $green%a$PR_RST"
-FMT_UNSTAGED="$red ●"
+FMT_UNSTAGED="$yellow ●"
 FMT_STAGED="$green ●"
 
 git_separator=$' \ue0a0'

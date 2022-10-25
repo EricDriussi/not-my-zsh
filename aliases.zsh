@@ -40,6 +40,10 @@ alias mkd="mkdir_and_cd"; mkdir_and_cd() { mkdir "$1" && cd "$1" }
 alias v="nvim"
 alias vo="fzf_nvim"; fzf_nvim() { nvim "$(fzf)" }
 # Dev
+alias goask="go_docs"; go_docs() { go doc "$1" | nvim }
+alias gob="go build"
+alias goi="go env -w GOBIN=$HOME/.local/bin && go install"
+alias gor="go run"
 alias nr="npm run"
 alias nv="source /usr/share/nvm/init-nvm.sh && nvm"
 alias pr="pipenv run"

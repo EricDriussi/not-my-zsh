@@ -48,6 +48,30 @@ alias nr="npm run"
 alias nv="source /usr/share/nvm/init-nvm.sh && nvm"
 alias pr="pipenv run"
 
+alias watch="run_test_on_change"; run_test_on_change() {
+    # Modify these values to change behavior
+    pass_term="pass"
+    fail_term="fail"
+    match_case="I"
+    pass_fg=$(tput bold setaf 2)
+    fail_fg=$(tput bold setaf 1)
+
+    # Use sed to parse output and color it
+    local color_command='"$@" |\
+        sed -E "s/${pass_term}/${pass_fg}&$(tput sgr0)/${match_case}g" |\
+        sed -E "s/.*${fail_term}.*/${fail_fg}&$(tput sgr0)/${match_case}g"'
+
+		# Run command once
+    eval ${color_command}
+    while true
+    do
+    	# Loop and use inotify-tools to re-run on change
+        inotifywait -qq -r -e create,close_write,modify,move,delete ./ &&\
+            echo "\n[ . . . Re-running command . . . ]" &&\
+            eval ${color_command}
+    done
+}
+
 # Git
 alias gab="git branch -a"
 alias gadd="git add"

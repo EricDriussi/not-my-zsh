@@ -86,7 +86,7 @@ alias gcom="git add -A && git commit"
 alias ginit="git init && git config credential.helper store"
 alias gme="git merge --no-squash --no-edit"
 alias gmkb="new_git_branch"; new_git_branch() {
-    git branch -b "$1" && git push --set-upstream origin "$1"
+    git checkout -b "$1" && git push --set-upstream origin "$1"
 }
 alias gmv="git checkout"
 alias gp="git pull"

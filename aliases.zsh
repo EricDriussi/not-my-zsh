@@ -48,27 +48,31 @@ alias nr="npm run"
 alias nv="source /usr/share/nvm/init-nvm.sh && nvm"
 alias pr="pipenv run"
 
-alias watch="run_test_on_change"; run_test_on_change() {
-    # Modify these values to change behavior
-    pass_term="pass"
-    fail_term="fail"
-    match_case="I"
-    pass_fg=$(tput bold setaf 2)
-    fail_fg=$(tput bold setaf 1)
+alias watch="run_on_change"; run_on_change() {
+    color_command(){
+        # Modify these values to change behavior
+        pass_terms="pass|ok"
+        fail_terms="fail|failed"
+        pass_color=$'\e[1;32m'
+        fail_color=$'\e[1;31m'
+        reset_color=$'\e[0m'
 
-    # Use sed to parse output and color it
-    local color_command='"$@" |\
-        sed -E "s/${pass_term}/${pass_fg}&$(tput sgr0)/${match_case}g" |\
-        sed -E "s/.*${fail_term}.*/${fail_fg}&$(tput sgr0)/${match_case}g"'
+        colored_pass_terms="✅ ${pass_color}&${reset_color}"
+        colored_fail_terms="❌ ${fail_color}&${reset_color}"
 
-		# Run command once
-    eval ${color_command}
-    while true
-    do
-    	# Loop and use inotify-tools to re-run on change
-        inotifywait -qq -r -e create,close_write,modify,move,delete ./ &&\
-            echo "\n[ . . . Re-running command . . . ]" &&\
-            eval ${color_command}
+        # Use sed to parse output and color it
+        "$@" | sed \
+            -Ee "s/${pass_terms}/${colored_pass_terms}/I" \
+            -Ee "s/${fail_terms}/${colored_fail_terms}/I"
+    }
+
+    # Run command once
+    color_command "$@"
+    # Loop and use inotify-tools to re-run on change
+    while true; do
+        inotifywait -qq -r -e create,modify,move,delete ./ &&
+        printf "\n[ . . . Re-running command . . . ]\n" &&
+        color_command "$@"
     done
 }
 

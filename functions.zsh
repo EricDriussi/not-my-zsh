@@ -45,6 +45,7 @@ function exit_code_color {
     fi
 }
 
+# TODO.Separate vcs stuff
 function prompt_vcs_preexec_hook {
     case "$2" in
         *git*|*svn*) PR_GIT_UPDATE=1 ;;

@@ -9,6 +9,7 @@ green="%{${(%):-"%F{green}"}%}"
 ###########
 #   VCS   #
 ###########
+# TODO.Separate vcs stuff
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
 # Slow in large repos

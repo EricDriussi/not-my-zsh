@@ -51,8 +51,8 @@ alias pr="pipenv run"
 alias watch="run_on_change"; run_on_change() {
     color_command(){
         # Modify these values to change behavior
-        pass_terms="pass|ok"
-        fail_terms="fail|failed"
+        pass_terms="\<pass\>|\<ok\>"
+        fail_terms="\<fail\>|\<failed\>"
         pass_color=$'\e[1;32m'
         fail_color=$'\e[1;31m'
         reset_color=$'\e[0m'

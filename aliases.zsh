@@ -77,17 +77,17 @@ alias watch="run_on_change"; run_on_change() {
 }
 
 # Git
-alias gab="git branch -a"
+alias glb="git branch -a"
 alias gadd="git add"
 alias gaddorigin="add_git_origin"; add_origin() {
     git remote add origin "$1"; git remote set-url --add --push origin "$1"
 }
 alias gaddremote="git remote set-url --add --push origin"
-alias gamend="git commit --amend"
+alias gamen="git commit --amend"
 alias gc="git commit"
-alias gcempty="git commit --allow-empty"
+alias gcempty="git commit --allow-empty --allow-empty--message"
 alias gcom="git add -A && git commit"
-alias ginit="git init && git config credential.helper store"
+alias ginit="git init"
 alias gme="git merge --no-squash --no-edit"
 alias gmkb="new_git_branch"; new_git_branch() {
     git checkout -b "$1" && git push --set-upstream origin "$1"

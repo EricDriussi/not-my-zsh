@@ -97,7 +97,13 @@ alias gp="git pull"
 alias gpush="git push"
 alias gres="git mergetool"
 alias grmb="git branch -D"
-alias gs="git status"
+alias grmB="clear_all_branches"; clear_all_branches() {
+    for branch in $(git for-each-ref --format '%(refname:short)' --merged HEAD refs/heads/)
+    do
+        git branch -d ${branch}
+    done
+}
+alias gs="git fetch && git status"
 alias gstash="git stash -u"
 alias gsuperp="git fetch origin && git reset --hard origin"
 alias gunstage="git restore --staged ."

@@ -118,6 +118,13 @@ alias trymerge="git_dry_merge"; git_dry_merge() {
 alias glg='git log -15 --graph --abbrev-commit --decorate --format=tformat:"%C(yellow)%h%C(reset)%C(reset)%C(auto)%d%C(reset) %s %C(white) -  %C(bold green)(%ar)%C(reset) %C(dim blue)<%an>%Creset"'
 alias glog=' git log -10  --name-only --graph --abbrev-commit --decorate --format=tformat:"%C(yellow)%h%C(reset)%C(reset)%C(auto)%d%C(reset) %s %C(white) -  %C(bold green)(%ar)%C(reset) %C(dim blue)<%an>%C(reset)" '
 
+# Github
+alias ghpr="create_PR"; create_PR() {
+    gh pr create -t "$(git rev-parse --abbrev-ref HEAD | sed -e 's/-/ /g' -Ee 's/\w*/\u&/g')" -a "@me" -b ""
+}
+alias ghs="gh pr checks"
+alias ghv="gh pr view -w"
+
 # Docker
 alias dc='docker container ls --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Status}}"'
 alias ddown="docker-compose down"

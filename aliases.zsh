@@ -61,9 +61,8 @@ alias watch="run_on_change"; run_on_change() {
         colored_fail_terms="❌ ${fail_color}&${reset_color}"
 
         # Use sed to parse output and color it
-        "$@" | sed \
-            -Ee "s/${pass_terms}/${colored_pass_terms}/I" \
-            -Ee "s/${fail_terms}/${colored_fail_terms}/I"
+        "$@" | sed -E "s/${pass_terms}/${colored_pass_terms}/I" |\
+            sed -E "s/${fail_terms}/${colored_fail_terms}/I"
     }
 
     # Run command once
@@ -120,7 +119,7 @@ alias glog=' git log -10  --name-only --graph --abbrev-commit --decorate --forma
 
 # Github
 alias ghpr="create_PR"; create_PR() {
-    gh pr create -t "$(git rev-parse --abbrev-ref HEAD | sed -e 's/-/ /g' -Ee 's/\w*/\u&/g')" -a "@me" -b ""
+    gh pr create -t "$(git rev-parse --abbrev-ref HEAD | sed 's/-/ /g' | sed -E 's/\w*/\u&/g')" -a "@me" -b ""
 }
 alias ghs="gh pr checks"
 alias ghv="gh pr view -w"

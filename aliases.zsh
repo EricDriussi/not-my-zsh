@@ -1,6 +1,6 @@
 # Sys
 alias cl="clear"
-alias cp="cp -i"
+alias cp="cp"
 alias cpd="cp -ir"
 alias diskUsage="sudo du -h | sort -hr | head -10"
 alias fd="find_in_cwd"; find_in_cwd() { find . -iname "*"$1"*" | sort }
@@ -8,7 +8,7 @@ alias freeport="kill_process_in_port"; kill_process_in_port() {
     lsof -i tcp:"$1" | awk 'NR!=1 {print $2}' | xargs kill
 }
 alias grep="grep --color=always"
-alias l="exa -bghla"
+alias l="exa --group --all --long --icons"
 alias mkdir="mkdir -p"
 alias mv="mv -i"
 alias ports="check_listening_ports"; check_listening_ports() {
@@ -18,17 +18,17 @@ alias redo="repeat_command"; repeat_command() {
     for i in {1.."$1"}; do "${@:2}"; done
 }
 alias rg="rg --hidden -g '!.git'"
-alias rm="rm -i"
+alias rm="rm"
 alias rmd="rm -irf"
 alias sctl="sudo systemctl"
-alias tre="exa --icons --group-directories-first --tree --level=2 --git-ignore"
+alias tre="exa --all --icons --group-directories-first --tree --level=2 --ignore-glob='node_modules|.git|.idea'"
 alias tree="tree -L 2 -C -a -I 'node_modules' -I 'build' -I '.git' -I '.idea'"
 
 # Globals!
 alias -g G="| grep"
 alias -g L="| less"
 alias -g NOER="2> /dev/null"
-alias -g NUL="> /dev/null 2>&1"
+alias -g NOUT="> /dev/null 2>&1"
 alias -g SU="| sort -u"
 
 # Change ssh key
@@ -120,7 +120,7 @@ alias glog=' git log -10  --name-only --graph --abbrev-commit --decorate --forma
 
 # Github
 alias ghpr="create_PR"; create_PR() {
-    gh pr create -t "$(git rev-parse --abbrev-ref HEAD | sed 's/-/ /g' | sed -E 's/\w*/\u&/g')" -a "@me" -b ""
+    gh pr create -t "$(git rev-parse --abbrev-ref HEAD | sed -e 's/-/ /g' -eE 's/\w*/\u&/g')" -a "@me" -b ""
 }
 alias ghs="gh pr checks"
 alias ghv="gh pr view -w"

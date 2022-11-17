@@ -21,7 +21,8 @@ alias rg="rg --hidden -g '!.git'"
 alias rm="rm -i"
 alias rmd="rm -irf"
 alias sctl="sudo systemctl"
-alias tre="tree -L 2 -C -a -I 'node_modules' -I 'build' -I '.git' -I '.idea'"
+alias tre="exa --icons --group-directories-first --tree --level=2 --git-ignore"
+alias tree="tree -L 2 -C -a -I 'node_modules' -I 'build' -I '.git' -I '.idea'"
 
 # Globals!
 alias -g G="| grep"

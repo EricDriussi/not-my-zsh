@@ -3,7 +3,7 @@ alias cl="clear"
 alias cp="cp"
 alias cpd="cp -ir"
 alias diskUsage="sudo du -h | sort -hr | head -10"
-alias fd="find_in_cwd"; find_in_cwd() { find . -iname "*"$1"*" | sort }
+alias fd="find_in_cwd"; find_in_cwd() { find . -iname "*$1*" | sort }
 alias freeport="kill_process_in_port"; kill_process_in_port() {
     lsof -i tcp:"$1" | awk 'NR!=1 {print $2}' | xargs kill
 }
@@ -80,7 +80,7 @@ alias watch="run_on_change"; run_on_change() {
 alias glb="git branch -a"
 alias gadd="git add"
 alias gaddorigin="add_git_origin"; add_origin() {
-    git remote add origin "$1"; git remote set-url --add --push origin "$1"
+    git remote add origin "$1" && git remote set-url --add --push origin "$1"
 }
 alias gaddremote="git remote set-url --add --push origin"
 alias gamen="git commit --amend"
@@ -97,7 +97,7 @@ alias gp="git pull"
 alias gpush="git push"
 alias gres="git mergetool"
 alias grmb="git branch -D"
-alias grmB="clear_all_branches"; clear_all_branches() {
+alias grmB="rm_all_branches"; rm_all_branches() {
     for branch in $(git for-each-ref --format '%(refname:short)' --merged HEAD refs/heads/)
     do
         git branch -d ${branch}
@@ -116,21 +116,31 @@ alias trymerge="git_dry_merge"; git_dry_merge() {
 }
 
 alias glg='git log -15 --graph --abbrev-commit --decorate --format=tformat:"%C(yellow)%h%C(reset)%C(reset)%C(auto)%d%C(reset) %s %C(white) -  %C(bold green)(%ar)%C(reset) %C(dim blue)<%an>%Creset"'
-alias glog=' git log -10  --name-only --graph --abbrev-commit --decorate --format=tformat:"%C(yellow)%h%C(reset)%C(reset)%C(auto)%d%C(reset) %s %C(white) -  %C(bold green)(%ar)%C(reset) %C(dim blue)<%an>%C(reset)" '
+alias glog='git log -10 --name-only --graph --abbrev-commit --decorate --format=tformat:"%C(yellow)%h%C(reset)%C(reset)%C(auto)%d%C(reset) %s %C(white) -  %C(bold green)(%ar)%C(reset) %C(dim blue)<%an>%C(reset)"'
 
 # Github
+alias ghs="gh pr checks --watch"
+alias ghv="gh pr view --web"
 alias ghpr="create_PR"; create_PR() {
-    gh pr create -t "$(git rev-parse --abbrev-ref HEAD | sed -e 's/-/ /g' -eE 's/\w*/\u&/g')" -a "@me" -b ""
+    gh pr create \
+        --title "$(git rev-parse --abbrev-ref HEAD | sed -e 's/-/ /g' -eE 's/\w*/\u&/g')" \
+        --assignee "@me" --body ""
 }
-alias ghs="gh pr checks"
-alias ghv="gh pr view -w"
 
 # Docker
 alias dc='docker container ls --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Status}}"'
 alias ddown="docker-compose down"
 alias di="docker image ls"
-alias dlist='echo -e "------------------------------------IMAGES------------------------------------" && di && echo -e "----------------------------------CONTAINERS-----------------------------------" && dc && echo -e "------------------------------------VOLUMES------------------------------------" && dv'
 alias dnuke='docker stop $(docker container ls -a -q); docker system prune -a -f --volumes'
 alias dstop="docker stop"
 alias dup="docker-compose up -d"
 alias dv="docker volume ls"
+
+alias dlist="docker_list"; docker_list(){
+    echo -e "\n------------------------------------IMAGES------------------------------------" && \
+        docker image ls && \
+        echo -e "\n----------------------------------CONTAINERS-----------------------------------" && \
+        docker container ls --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Status}}" && \
+        echo -e "\n------------------------------------VOLUMES------------------------------------" && \
+        docker volume ls
+}

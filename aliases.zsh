@@ -87,14 +87,18 @@ alias gamen="git commit --amend"
 alias gc="git commit"
 alias gcempty="git commit --allow-empty --allow-empty--message"
 alias gcom="git add -A && git commit"
+alias gfs="git fetch && git status"
 alias ginit="git init"
 alias gme="git merge --no-squash --no-edit"
 alias gmkb="new_git_branch"; new_git_branch() {
-    git checkout -b "$1" && git push --set-upstream origin "$1"
+    git checkout -b "$(echo $@ | sed 's/ /-/g')"
 }
 alias gmv="git checkout"
 alias gp="git pull"
-alias gpush="git push"
+alias gpush="git_push"; git_push() {
+    git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD)"
+}
+alias gpushf="git push --force"
 alias gres="git mergetool"
 alias grmb="git branch -D"
 alias grmB="rm_all_branches"; rm_all_branches() {
@@ -103,7 +107,7 @@ alias grmB="rm_all_branches"; rm_all_branches() {
         git branch -d ${branch}
     done
 }
-alias gs="git fetch && git status"
+alias gs="git status"
 alias gstash="git stash -u"
 alias gsuperp="git fetch origin && git reset --hard origin"
 alias gunstage="git restore --staged ."

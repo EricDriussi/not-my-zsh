@@ -4,6 +4,7 @@ alias cp="cp"
 alias cpd="cp -ir"
 alias diskUsage="sudo du -h | sort -hr | head -10"
 alias fd="find_in_cwd"; find_in_cwd() { find . -iname "*$1*" | sort }
+alias fonts="fonts"; fonts() { fc-list | grep -i "$1" | awk -F: '{print $2}' | sort | uniq }
 alias freeport="kill_process_in_port"; kill_process_in_port() {
     lsof -i tcp:"$1" | awk 'NR!=1 {print $2}' | xargs kill
 }

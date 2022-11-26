@@ -4,7 +4,7 @@ alias cp="cp"
 alias cpd="cp -ir"
 alias diskUsage="sudo du -h | sort -hr | head -10"
 alias fd="find_in_cwd"; find_in_cwd() { find . -iname "*$1*" | sort }
-alias fonts="fonts"; fonts() { fc-list | grep -i "$1" | awk -F: '{print $2}' | sort | uniq }
+alias fonts="find_fonts"; find_fonts() { fc-list | grep -i "$1" | awk -F: '{print $2}' | sort | uniq }
 alias freeport="kill_process_in_port"; kill_process_in_port() {
     lsof -i tcp:"$1" | awk 'NR!=1 {print $2}' | xargs kill
 }
@@ -53,8 +53,8 @@ alias pr="pipenv run"
 alias watch="run_on_change"; run_on_change() {
     color_command(){
         # Modify these values to change behavior
-        pass_terms="\<pass\>|\<ok\>"
-        fail_terms="\<fail\>|\<failed\>"
+        pass_terms="\<pass\>|\<ok\>|\<success\>"
+        fail_terms="\<fail\>|\<failed\>|\<failure\>"
         pass_color=$'\e[1;32m'
         fail_color=$'\e[1;31m'
         reset_color=$'\e[0m'
@@ -80,13 +80,13 @@ alias watch="run_on_change"; run_on_change() {
 # Git
 alias glb="git branch -a"
 alias gadd="git add"
-alias gaddorigin="add_git_origin"; add_origin() {
+alias gaddorigin="add_origin"; add_origin() {
     git remote add origin "$1" && git remote set-url --add --push origin "$1"
 }
 alias gaddremote="git remote set-url --add --push origin"
 alias gamen="git commit --amend"
 alias gc="git commit"
-alias gcempty="git commit --allow-empty --allow-empty--message"
+alias gcempty="git commit --allow-empty --allow-empty-message"
 alias gcom="git add -A && git commit"
 alias gfs="git fetch && git status"
 alias ginit="git init"

@@ -16,7 +16,13 @@ alias ports="check_listening_ports"; check_listening_ports() {
     sudo ss -tulpn | grep LISTEN
 }
 alias redo="repeat_command"; repeat_command() {
-    for i in {1.."$1"}; do "${@:2}"; done
+    cmd=("${@:2}")
+    for i in {1.."$1"}; do
+        $cmd
+        if [[ $? != 0 ]]; then
+            echo "\nCommand failed on run $i"; return 1
+        fi
+    done; echo "\nCommand never failed"
 }
 alias rg="rg --hidden -g '!.git'"
 alias rm="rm"

@@ -55,6 +55,7 @@ alias gor="go run"
 alias nr="npm run"
 alias nv="source /usr/share/nvm/init-nvm.sh && nvm"
 alias pr="pipenv run"
+alias todos='grep -rsi "todo\|fixme" --exclude-dir=".*"'
 
 alias watch="run_on_change"; run_on_change() {
     color_command(){

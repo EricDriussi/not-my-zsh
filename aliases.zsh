@@ -37,6 +37,7 @@ alias -g L="| less"
 alias -g NOER="2> /dev/null"
 alias -g NOUT="> /dev/null 2>&1"
 alias -g SU="| sort -u"
+alias -g C="| xclip -sel clipboard"
 
 # Change ssh key
 alias ssauth='eval "$(ssh-agent -s)" && ssh-add'

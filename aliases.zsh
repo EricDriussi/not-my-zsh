@@ -136,7 +136,7 @@ alias ghs="gh pr checks --watch"
 alias ghv="gh pr view --web"
 alias ghpr="create_PR"; create_PR() {
     gh pr create \
-        --title "$(git rev-parse --abbrev-ref HEAD | sed -e 's/-/ /g' -eE 's/\w*/\u&/g')" \
+        --title "$(git rev-parse --abbrev-ref HEAD | sed -e 's/-/ /g' -Ee 's/\w*/\u&/g')" \
         --assignee "@me" --body ""
 }
 

@@ -13,10 +13,10 @@ export XDG_CACHE_HOME=$XDG_CONFIG_HOME/cache
 export CUSTOM_ZSH=$ZSH/not-my-zsh
 export ZSH_PLUG=$CUSTOM_ZSH/.plug
 
-source $CUSTOM_ZSH/functions.zsh
+source $CUSTOM_ZSH/funcs.zsh
 source $CUSTOM_ZSH/settings.zsh
 source $CUSTOM_ZSH/bindings.zsh
-source $CUSTOM_ZSH/aliases.zsh
+source $CUSTOM_ZSH/aliases/init.zsh
 
 # Default Theme
 source $CUSTOM_ZSH/default-prompt.zsh

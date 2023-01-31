@@ -119,6 +119,7 @@ alias grmB="rm_all_branches"; rm_all_branches() {
 alias gs="git status"
 alias gstash="git stash -u"
 alias gsuperp="git fetch origin && git reset --hard origin"
+alias gundo="git reset HEAD~1"
 alias gunstage="git restore --staged ."
 alias gunstash="git stash pop"
 alias lg="lazygit"
@@ -148,6 +149,30 @@ alias dnuke='docker stop $(docker container ls -a -q); docker system prune -a -f
 alias dstop="docker stop"
 alias dup="docker-compose up -d"
 alias dv="docker volume ls"
+
+alias dlog="docker_logs"; docker_logs() {
+    if docker ps >/dev/null 2>&1; then
+        container=$(docker ps | awk '{if (NR!=1) print $1 ": " $(NF)}' | fzf --height 40%)
+        if [[ -n $container ]]; then
+            container_id=$(echo $container | awk -F ': ' '{print $1}')
+            docker logs -f $container_id
+        fi
+    else
+        echo "Docker daemon is not running! (ಠ_ಠ)"
+    fi
+}
+
+alias dshel="docker_shell"; docker_shell() {
+    if docker ps >/dev/null 2>&1; then
+        container=$(docker ps | awk '{if (NR!=1) print $1 ": " $(NF)}' | fzf --height 40%)
+        if [[ -n $container ]]; then
+            container_id=$(echo $container | awk -F ': ' '{print $1}')
+            docker exec -it $container_id /bin/bash || docker exec -it $container_id /bin/sh
+        fi
+    else
+        echo "Docker daemon is not running! (ಠ_ಠ)"
+    fi
+}
 
 alias dlist="docker_list"; docker_list(){
     echo -e "\n------------------------------------IMAGES------------------------------------" && \

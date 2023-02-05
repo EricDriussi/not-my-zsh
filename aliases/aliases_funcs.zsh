@@ -83,10 +83,10 @@ function docker_list() {
 }
 
 function docker_logs() {
-    if docker ps >/dev/null 2>&1; then
-        container=$(docker ps | awk '{if (NR!=1) print $1 ": " $(NF)}' | fzf --height 40%)
+    if _docker_running; then
+        container=$(_containers_selector)
         if [[ -n $container ]]; then
-            container_id=$(echo $container | awk -F ': ' '{print $1}')
+            container_id=$(_container_id $container)
             docker logs -f $container_id
         fi
     else
@@ -95,13 +95,30 @@ function docker_logs() {
 }
 
 function docker_shell() {
-    if docker ps >/dev/null 2>&1; then
-        container=$(docker ps | awk '{if (NR!=1) print $1 ": " $(NF)}' | fzf --height 40%)
+    if _docker_running; then
+        container=$(_containers_selector)
         if [[ -n $container ]]; then
-            container_id=$(echo $container | awk -F ': ' '{print $1}')
-            docker exec -it $container_id /bin/bash || docker exec -it $container_id /bin/sh
+            container_id=$(_container_id $container)
+            shell=$(_get_available_shell $container_id)
+            docker exec -it $container_id $shell
         fi
     else
         echo "Docker daemon is not running! (ಠ_ಠ)"
     fi
+}
+
+function _docker_running() {
+    docker ps >/dev/null 2>&1
+}
+
+function _containers_selector() {
+    docker ps | awk '{if (NR!=1) print $2 " <-> " $1}' | fzf --height 40%
+}
+
+function _container_id() {
+    echo "$1" | awk -v FS=' <-> ' '{print $2}'
+}
+
+function _get_available_shell() {
+    docker exec -it "$1" which bash && echo "/bin/bash" || echo "/bin/sh"
 }

@@ -44,6 +44,6 @@ Some sane default settings can be found in `settings.zsh` and `init.zsh`.
 
 Bindings are in `bindings.zsh`.
 
-The default prompt can be modified in `default-prompt.zsh`.
+The default prompt can be modified in `prompt/`.
 
 `funcs.zsh` contains utility functions used elsewhere (like `plug` and `theme`).

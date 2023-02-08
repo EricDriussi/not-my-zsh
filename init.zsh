@@ -19,4 +19,4 @@ source $CUSTOM_ZSH/bindings.zsh
 source $CUSTOM_ZSH/aliases/init.zsh
 
 # Default Theme
-source $CUSTOM_ZSH/default-prompt.zsh
+source $CUSTOM_ZSH/prompt/prompt.zsh

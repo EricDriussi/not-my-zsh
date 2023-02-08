@@ -41,7 +41,7 @@ alias todos='grep -nrsi "todo\|fixme" --exclude-dir=".*"'
 alias watch=run_on_change
 
 # Git
-alias ga="git add"
+alias ga="git add ."
 alias gaddorigin=add_origin
 alias gaddremote="git remote set-url --add --push origin"
 alias gamen="git commit --amend"

@@ -1,3 +1,5 @@
+# Enable colors
+autoload -U colors && colors
 # Enable auto-completion
 zmodload zsh/complist
 autoload -U compinit && compinit -u
@@ -13,8 +15,6 @@ zstyle ':completion:*:descriptions' format "$fg[yellow]%B--- %d%b"
 # Disables error if autocompletion returns no match
 unsetopt nomatch
 unsetopt BEEP
-# Enable colors
-autoload -U colors && colors
 
 # Load custom functions
 autoload -U add-zsh-hook

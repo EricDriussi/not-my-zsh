@@ -7,7 +7,7 @@ user_host="$user@$host%f"
 
 dir_data=$' 📂 $green%~%f'
 git_data='$vcs_info_msg_0_%f'
-arrow=$'%F{$(exit_code_color)}\U2994'
+arrow=$'%F{$(_exit_code_color)}\U2994'
 
 line_one=$user_host$dir_data$git_data%f
 cr=$'\n'

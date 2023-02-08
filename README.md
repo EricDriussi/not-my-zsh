@@ -38,9 +38,9 @@ theme "agnoster"
 
 ## Tinker
 
-Aliases are in `aliases/` (simple ones in `init.zsh`, fancy functions in `aliases_funcs.zsh`).
+Aliases are in `aliases/` (simple ones in `aliases.zsh`, fancy functions in `aliases_funcs.zsh`).
 
-Some sane default settings can be found in `settings.zsh` and `init.zsh`.
+Settings can be found in `settings.zsh` and toggled in `init.zsh`.
 
 Bindings are in `bindings.zsh`.
 

@@ -1,11 +1,11 @@
-function find_fonts() {
+function find_fonts {
     fc-list | grep -i "$1" | awk -F: '{print $2}' | sort | uniq
 }
-function kill_process_by_port() {
+function kill_process_by_port {
     lsof -i tcp:"$1" | awk 'NR!=1 {print $2}' | xargs kill
 }
 
-function repeat_command() {
+function repeat_command {
     cmd=("${@:2}")
     for i in {1.."$1"}; do
         $cmd
@@ -15,7 +15,7 @@ function repeat_command() {
     done; echo "\nCommand never failed"
 }
 
-function run_on_change() {
+function run_on_change {
     color_command(){
         # Modify these values to change behavior
         pass_terms="\<pass\>|\<ok\>|\<success\>"
@@ -42,38 +42,38 @@ function run_on_change() {
     done
 }
 
-function add_origin() {
+function add_origin {
     git remote add origin "$1" && git remote set-url --add --push origin "$1"
 }
-function new_branch() {
+function new_branch {
     git checkout -b "$(echo $@ | sed 's/ /-/g')"
 }
-function git_push() {
+function git_push {
     git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD)"
 }
-function rm_all_branches() {
+function rm_all_branches {
     for branch in $(git for-each-ref --format '%(refname:short)' --merged HEAD refs/heads/)
     do
         git branch -d ${branch}
     done
 }
-function git_dry_merge() {
+function git_dry_merge {
     git merge "$1" --no-commit --no-ff; git merge --abort
 }
-function git_log() {
+function git_log {
     git log -15 --graph --abbrev-commit --decorate --format=tformat:"%C(yellow)%h%C(reset)%C(reset)%C(auto)%d%C(reset) %s %C(white) -  %C(bold green)(%ar)%C(reset) %C(dim blue)<%an>%Creset"
 }
-function git_log_files() {
+function git_log_files {
     git log -10 --name-only --graph --abbrev-commit --decorate --format=tformat:"%C(yellow)%h%C(reset)%C(reset)%C(auto)%d%C(reset) %s %C(white) -  %C(bold green)(%ar)%C(reset) %C(dim blue)<%an>%C(reset)"
 }
 
-function create_PR() {
+function create_PR {
     gh pr create \
         --title "$(git rev-parse --abbrev-ref HEAD | sed -e 's/-/ /g' -Ee 's/\w*/\u&/g')" \
         --assignee "@me" --body ""
 }
 
-function docker_list() {
+function docker_list {
     echo -e "\n------------------------------------IMAGES------------------------------------" && \
         docker image ls && \
         echo -e "\n----------------------------------CONTAINERS-----------------------------------" && \
@@ -82,7 +82,7 @@ function docker_list() {
         docker volume ls
 }
 
-function docker_logs() {
+function docker_logs {
     if _docker_running; then
         container=$(_containers_selector)
         if [[ -n $container ]]; then
@@ -94,7 +94,7 @@ function docker_logs() {
     fi
 }
 
-function docker_shell() {
+function docker_shell {
     if _docker_running; then
         container=$(_containers_selector)
         if [[ -n $container ]]; then
@@ -107,18 +107,18 @@ function docker_shell() {
     fi
 }
 
-function _docker_running() {
+function _docker_running {
     docker ps >/dev/null 2>&1
 }
 
-function _containers_selector() {
+function _containers_selector {
     docker ps | awk '{if (NR!=1) print $2 " <-> " $1}' | fzf --height 40%
 }
 
-function _container_id() {
+function _container_id {
     echo "$1" | awk -v FS=' <-> ' '{print $2}'
 }
 
-function _get_available_shell() {
+function _get_available_shell {
     docker exec -it "$1" which bash && echo "/bin/bash" || echo "/bin/sh"
 }

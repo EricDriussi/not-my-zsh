@@ -1,70 +1,57 @@
-up_arrow="${terminfo[kcuu1]}"
-down_arrow="${terminfo[kcud1]}"
-home="${terminfo[khome]}"
-end_key="${terminfo[kend]}"
-shift_tab="${terminfo[kcbt]}"
-esc="\033"
-ctrl_right="^[[1;5C"
-ctrl_left="^[[1;5D"
-del="^[[3~"
-ctrl_backspace="^H"
-ctrl_del="^[[3;5~"
+typeset  -g  -A  key
 
-# Esc -> NVIM
-autoload -U edit-command-line
-bindkey $esc edit-command-line
-zle -N edit-command-line
-# Esc -> Vi mode
-# bindkey -v
+# Define the keys
+key[Home]="${terminfo[khome]}"
+key[End]="${terminfo[kend]}"
+key[Insert]="${terminfo[kich1]}"
+key[Backspace]="${terminfo[kbs]}"
+key[Delete]="${terminfo[kdch1]}"
+key[Up]="${terminfo[kcuu1]}"
+key[Down]="${terminfo[kcud1]}"
+key[Left]="${terminfo[kcub1]}"
+key[Right]="${terminfo[kcuf1]}"
+key[PageUp]="${terminfo[kpp]}"
+key[PageDown]="${terminfo[knp]}"
+key[Shift-Tab]="${terminfo[kcbt]}"
 
-# MOVEMENT
-# Go to beginning of line
-bindkey $home beginning-of-line
-# Go to end of line
-bindkey $end_key end-of-line
-# Move forward one word
-bindkey $ctrl_right forward-word
-# Move backward one word
-bindkey $ctrl_left backward-word
+# What they do
+bindkey -- $key[Home]       beginning-of-line
+bindkey -- $key[End]        end-of-line
+bindkey -- $key[Insert]     overwrite-mode
+bindkey -- $key[Backspace]  backward-delete-char
+bindkey -- $key[Delete]     delete-char
+bindkey -- $key[Up]         up-line-or-beginning-search
+bindkey -- $key[Down]       down-line-or-beginning-search
+bindkey -- $key[Left]       backward-char
+bindkey -- $key[Right]      forward-char
+bindkey -- $key[PageUp]     beginning-of-buffer-or-history
+bindkey -- $key[PageDown]   end-of-buffer-or-history
+bindkey -- $key[Shift-Tab]  reverse-menu-complete
 
-# DELETE
-# Delete a single char
-bindkey $del delete-char
-# Delete word backwards
-bindkey $ctrl_backspace backward-kill-word
-# Delete word forewards
-bindkey $ctrl_del kill-word
+# Not all terminals support these
+key[Control-Left]="${terminfo[kLFT5]}"
+key[Control-Right]="${terminfo[kRIT5]}"
+key[Control-Delete]="${terminfo[kDC5]}"
+key[Control-Backspace]="^H" # ctrl-v + ctrl-backspace to update keycode
+key[Esc]="\033" # ctrl-v + esc to update keycode
+# Check if set to avoid errors
+[[  -n  $key[Control-Left]       ]]  &&  bindkey  --  $key[Control-Left]       backward-word
+[[  -n  $key[Control-Right]      ]]  &&  bindkey  --  $key[Control-Right]      forward-word
+[[  -n  $key[Control-Delete]     ]]  &&  bindkey  --  $key[Control-Delete]     kill-word
+[[  -n  $key[Control-Backspace]  ]]  &&  bindkey  --  $key[Control-Backspace]  backward-kill-word
+[[  -n  $key[Esc]                ]]  &&  bindkey  --  $key[Esc]                edit-command-line
 
-# COMPLETE MENU
-# Move through the completion menu backwards
-bindkey -M viins $shift_tab reverse-menu-complete
 # Vim keys in auto-complete menu
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 
-# FUZZY FIND HISTORY
-if [[ $up_arrow || $down_arrow ]]; then
-    # Load modules
-    autoload -U up-line-or-beginning-search down-line-or-beginning-search
-    # Create widgets
-    zle -N up-line-or-beginning-search
-    zle -N down-line-or-beginning-search
-    # Bind widgets
-    bindkey $up_arrow up-line-or-beginning-search
-    bindkey $down_arrow down-line-or-beginning-search
-fi
-
-# Make sure that the terminal is in application mode (not TTY) when zle is active
-# Otherwise values from $terminfo are not valid
-if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
-    function zle-line-init() {
-        echoti smkx
-    }
-    function zle-line-finish() {
-        echoti rmkx
-    }
-    zle -N zle-line-init
-    zle -N zle-line-finish
+# Make sure the terminal is in application mode, when zle is active. Only then are the values from $terminfo valid.
+if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
+    autoload -Uz add-zle-hook-widget
+    function zle_application_mode_start { echoti smkx }
+    function zle_application_mode_stop { echoti rmkx }
+    add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
+    add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi

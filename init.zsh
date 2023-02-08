@@ -1,22 +1,28 @@
-# zsh_history settings
-export HISTFILE=$ZSH/.zsh_history
-export HISTSIZE=10000
-export SAVEHIST=10000
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_SAVE_NO_DUPS
-
-export KEYTIMEOUT=1
-
-export XDG_DATA_HOME=$XDG_CONFIG_HOME/local/share
-export XDG_CACHE_HOME=$XDG_CONFIG_HOME/cache
+# Enable colors
+autoload -U colors && colors
+# Enable pretty tab in multiplexer terminal
+autoload -U add-zsh-hook
+add-zsh-hook precmd (){ print -Pn "\e]0;📂 %~\a" }
+add-zsh-hook preexec (){ print -Pn "\e]0;🚀 ${1}\a" }
 
 export CUSTOM_ZSH=$ZSH/not-my-zsh
 export ZSH_PLUG=$CUSTOM_ZSH/.plug
 
-source $CUSTOM_ZSH/funcs.zsh
 source $CUSTOM_ZSH/settings.zsh
-source $CUSTOM_ZSH/bindings.zsh
-source $CUSTOM_ZSH/aliases/init.zsh
+# Zsh history settings
+_history_settings
+# Enable command editor/vi mode
+_edit_command
+# Enable fancy tab-complete
+_fancy_complete_menu
+# Enable fuzzy-find history
+_fuzzy_history_search
 
-# Default Theme
+source $CUSTOM_ZSH/funcs.zsh
+source $CUSTOM_ZSH/bindings.zsh
+source $CUSTOM_ZSH/aliases/aliases.zsh
 source $CUSTOM_ZSH/prompt/prompt.zsh
+
+# Disables error if autocompletion returns no match
+unsetopt nomatch
+unsetopt BEEP

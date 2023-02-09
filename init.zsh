@@ -1,10 +1,5 @@
 # Enable colors
 autoload -U colors && colors
-# Enable pretty tab in multiplexer terminal
-autoload -U add-zsh-hook
-add-zsh-hook precmd (){ print -Pn "\e]0;📂 %~\a" }
-add-zsh-hook preexec (){ print -Pn "\e]0;🚀 ${1}\a" }
-
 export CUSTOM_ZSH=$ZSH/not-my-zsh
 export ZSH_PLUG=$CUSTOM_ZSH/.plug
 
@@ -13,6 +8,8 @@ source $CUSTOM_ZSH/settings.zsh
 _history_settings
 # Enable command editor/vi mode
 _edit_command
+# Enable pretty tabs in multiplexer
+_pretty_tabs
 # Enable fancy tab-complete
 _fancy_complete_menu
 # Enable fuzzy-find history

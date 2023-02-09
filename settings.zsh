@@ -33,3 +33,11 @@ function _edit_command {
     # Enable vi mode
     # bindkey -v
 }
+
+function _pretty_tabs {
+    autoload -U add-zsh-hook
+    show_dir(){ print -Pn "\e]0;📂 %~\a" }
+    show_proc(){ print -Pn "\e]0;🚀 ${1}\a" }
+    add-zsh-hook precmd show_dir
+    add-zsh-hook preexec show_proc
+}

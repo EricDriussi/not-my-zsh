@@ -122,3 +122,11 @@ function _container_id {
 function _get_available_shell {
     docker exec -it "$1" which bash && echo "/bin/bash" || echo "/bin/sh"
 }
+
+function decode_jwt(){
+    if [ "$#" -eq 0 ]; then
+        xclip -o | jq -R 'split(".") | .[1] | @base64d | fromjson'
+    else
+        echo "$1" | jq -R 'split(".") | .[1] | @base64d | fromjson'
+    fi
+}

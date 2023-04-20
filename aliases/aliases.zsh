@@ -39,6 +39,7 @@ alias nv="source /usr/share/nvm/init-nvm.sh && nvm"
 alias pr="pipenv run"
 alias todos='grep -nrsi "todo\|fixme" --exclude-dir=".*"'
 alias watch=run_on_change
+alias djwt=decode_jwt
 
 # Git
 alias ga="git add ."

@@ -99,6 +99,7 @@ function docker_shell {
         container=$(_containers_selector)
         if [[ -n $container ]]; then
             container_id=$(_container_id $container)
+            echo $container_id
             shell=$(_get_available_shell $container_id)
             docker exec -it $container_id $shell
         fi
@@ -120,7 +121,7 @@ function _container_id {
 }
 
 function _get_available_shell {
-    docker exec -it "$1" which bash && echo "/bin/bash" || echo "/bin/sh"
+    docker exec -it "$1" which bash 2>&1 1>/dev/null && echo "/bin/bash" || echo "/bin/sh"
 }
 
 function decode_jwt(){
